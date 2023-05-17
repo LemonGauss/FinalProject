@@ -1,6 +1,9 @@
 package com.FinalProject.Service.Impl;
 
 
+import com.FinalProject.Controller.DocumentToImageConverter;
+import com.FinalProject.Controller.TextToImageConverter;
+import com.FinalProject.Controller.WordToImage;
 import com.FinalProject.Mapper.FileUploadMapper;
 import com.FinalProject.Pojo.FileUpload;
 import com.FinalProject.Pojo.Resume;
@@ -22,10 +25,10 @@ public class FileUploadServiceImpl implements FileUploadService {
     private FileUploadMapper fileUploadMapper;
     @Override
     public void saveFile(MultipartFile file) throws IOException {
-        // 获取PDF文件的字节数组
+        // 获取文件的字节数组
         byte[] pdfBytes = file.getBytes();
 
-        // 获取保存PDF文件的路径
+        // 获取保存文件的路径
         String savePath = "D:/upload/";
 
         // 创建文件保存目录
@@ -44,6 +47,21 @@ public class FileUploadServiceImpl implements FileUploadService {
         fos.write(pdfBytes);
         fos.flush();
         fos.close();
+        // 保存图片
+        int lastDotIndex = fileName.lastIndexOf('.');
+        String fileFormat="";
+        String frontFileName="";
+        if (lastDotIndex != -1) {
+            frontFileName=fileName.substring(0,lastDotIndex+1);
+            // 使用substring方法截取最后一个点之后的部分
+            fileFormat = fileName.substring(lastDotIndex + 1);
+        }
+        if(fileFormat.equals("pdf"))
+        DocumentToImageConverter.convertPDFToImages(savePath + fileName,savePath);
+        if(fileFormat.equals("doc")||fileFormat.equals("docx"))
+            WordToImage.docToImage(savePath + fileName,savePath);
+        if(fileFormat.equals("txt"))
+            TextToImageConverter.convertTextToImage(savePath + fileName,savePath+frontFileName+"png");
         try{
             Resume resume=new Resume(0,fileName,savePath+fileName,null);
             fileUploadMapper.insertFile(resume);

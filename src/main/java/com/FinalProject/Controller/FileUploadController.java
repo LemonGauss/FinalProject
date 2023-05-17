@@ -31,7 +31,7 @@ public class FileUploadController {
         list2.add("文件上传成功！");
         list3.add("文件太大，请选择小于5MB的文件！");
         // 检查上传的文件是否是PDF格式
-        if (!fileName.toLowerCase().endsWith(".txt") && !fileName.toLowerCase().endsWith(".pdf")) {
+        if (!fileName.toLowerCase().endsWith(".txt") && !fileName.toLowerCase().endsWith(".pdf")&& !fileName.toLowerCase().endsWith(".docx")) {
             return new ResponseEntity<>(list1, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         // 检查上传的文件大小是否超过限制
@@ -39,8 +39,9 @@ public class FileUploadController {
             return new ResponseEntity<>(list3, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         try {
-            // 调用Service层方法保存PDF文件
+            // 调用Service层方法保存PDF文件,同时产生对应的图片
             fileUploadService.saveFile(file);
+
             return new ResponseEntity<>(list2, HttpStatus.OK);
 
         } catch (Exception e) {

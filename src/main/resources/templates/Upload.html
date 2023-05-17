@@ -77,9 +77,9 @@
         }
 
         // 检查文件格式是否正确
-        var allowedExtensions = /(\.txt|\.pdf)$/i;
+        var allowedExtensions = /(\.txt|\.pdf|\.docx)$/i;
         if (!allowedExtensions.exec(fileInput.value)) {
-            alert('文件格式不正确，请选择txt或pdf格式的文件！');
+            alert('文件格式不正确，请选择txt或pdf或docx格式的文件！');
             fileInput.value = '';
             return false;
         }

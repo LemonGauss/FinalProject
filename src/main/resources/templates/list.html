@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
-<html lang="en">
+<html lang="en" xmlns:style="http://www.w3.org/1999/xhtml">
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -58,7 +58,7 @@
 			</ul>
 		</nav>
 
-		<div class="container-fluid">
+		<div class="container-fluid" id="s1">
 			<div class="row">
 				<nav class="col-md-2 d-none d-md-block bg-light sidebar">
 					<div class="sidebar-sticky">
@@ -194,6 +194,7 @@
 										<th>简历编号</th>
 										<th>简历名称</th>
 										<th>查看简历内容</th>
+										<th>下载源文件</th>
 										<th>简历状态</th>  <!--已被分配和未被分配-->
 										<th>查看智能分配结果</th><!--全是超链接，点击显示简历（文本化）-->
 									</tr>
@@ -206,6 +207,7 @@
 
 							</div>
 						</div>
+
 					<div class="layui-container" id="Upload">
 						<div class="layui-col-lg-offset8">
 							<a th:href="@{/G}">上传简历</a>
