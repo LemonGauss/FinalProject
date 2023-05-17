@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link rel="stylesheet" href="/layui/css/layui.css">
+		<script type="text/javascript" src="layui/layui.js"></script>
+		<title>岗位提交表格</title>
+
+	</head>
+
+	<body>
+	<div class="layui-container">
+	<form action="" method="post" class="layui-form layui-col-lg-offset2">
+		<div class="layui-form-item">
+			<label for="job_title" class="layui-form-label">岗位名称：</label>
+			<input type="text" class="layui-input" id="job_title" name="job_title" placeholder="例:xx公司后端java高级开发师" required>
+		</div>
+
+		<div  class="layui-form-item">
+			<label for="talent_type" class="layui-form-label">人才对象：</label>
+			<input type="text" class="layui-input" id="talent_type" name="talent_type" placeholder="例:数据分析师" required>
+		</div>
+
+		<div  class="layui-form-item">
+			<label for="company_name" class="layui-form-label">发布公司：</label>
+			<input type="text" class="layui-input" id="company_name" name="company_name" placeholder="阿里杭州本部" required>
+		</div>
+
+		<div  class="layui-form-item">
+			<label for="start_date" class="layui-form-label">招聘起始时间：</label>
+			<input type="date" id="start_date" name="start_date" required>
+			<label for="end_date">招聘截止时间：</label>
+			<input type="date" id="end_date" name="end_date" required>
+		</div>
+
+		<div class="layui-form-item">
+			<label for="job_description" class="layui-form-label">岗位描述：</label>
+			<textarea id="job_description" class="layui-input" name="job_description"  required></textarea>
+		</div>
+
+		<div class="layui-form-item">
+			<label for="job_requirements" class="layui-form-label">岗位需求：</label>
+			<textarea id="job_requirements"  class="layui-input" name="job_requirements"  required></textarea>
+		</div>
+
+		<div class="layui-form-item">
+			<label for="salary" class="layui-form-label">薪资待遇：</label>
+			<input type="text" id="salary" name="salary" class="layui-input" required><br>
+		</div>
+
+		<input type="submit" value="提交" class="layui-btn-normal">
+	</form>
+
+	</div>
+	</body>
+
+</html>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http:mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="callSettersOnNulls" value="true" />
+        <setting name="cacheEnabled" value="true" />
+        <setting name="lazyLoadingEnabled" value="true" />
+        <setting name="aggressiveLazyLoading" value="true" />
+        <setting name="multipleResultSetsEnabled" value="true" />
+        <setting name="useColumnLabel" value="true" />
+        <setting name="useGeneratedKeys" value="false" />
+        <setting name="autoMappingBehavior" value="PARTIAL" />
+        <setting name="defaultExecutorType" value="SIMPLE" />
+        <setting name="mapUnderscoreToCamelCase" value="true" />
+        <setting name="localCacheScope" value="SESSION" />
+        <setting name="jdbcTypeForNull" value="NULL"/>
+    </settings>
+
+    <typeAliases>
+        <typeAlias type="java.lang.Integer" alias="Integer"></typeAlias>
+        <package name="com.FinalProject.Pojo"></package>
+    </typeAliases>
+</configuration>
+<!--<configuration>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="org/mybatis/example/BlogMapper.xml"></mapper>
+    </mappers>
+</configuration>--> <!--核心配置文件，不过在properties文件中已经配置好了-->
+

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>文件上传</title>
+    <style>
+        body {
+            background-color: #F5F5F5;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+        .placeholder {
+            display: inline-block;
+            font-size: 12px;
+            color: #5b5858;
+            opacity: 0.5;
+            transition: all 0.2s ease-in-out;
+        }
+        .container {
+            background-color: #F9F9F9;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        input[type="file"] {
+            border: none;
+            display: block;
+            margin: 0 auto;
+            width: 80%;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #EFEFEF;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #3E8E41;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>文件上传</h1>
+    <form th:action="@{/upload}" method="post" enctype="multipart/form-data" onsubmit="return checkUpload()">
+        <input type="file" name="file" id="fileToUpload">
+        <br><br>
+        <input type="submit" value="上传文件" name="submit"><p class="placeholder">仅支持txt,pdf格式;上传大小不超过5MB</p>
+    </form>
+</div>
+
+<script>
+    function checkUpload() {
+        // 获取表单对象和文件选择器对象
+        var form = document.querySelector('form');
+        var fileInput = document.querySelector('#fileToUpload');
+
+        // 检查文件是否选择
+        if (fileInput.files.length == 0) {
+            alert('请选择要上传的文件！');
+            return false;
+        }
+
+        // 检查文件格式是否正确
+        var allowedExtensions = /(\.txt|\.pdf)$/i;
+        if (!allowedExtensions.exec(fileInput.value)) {
+            alert('文件格式不正确，请选择txt或pdf格式的文件！');
+            fileInput.value = '';
+            return false;
+        }
+        var maxFileSize = 5 * 1024 * 1024; //
+        if (fileInput.files[0].size > maxFileSize) {
+            alert('文件太大，请选择小于5MB的文件！');
+            fileInput.value = '';
+            return false;
+        }
+
+        // 监听表单提交响应，检查文件上传状态
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // 上传成功
+                alert('文件上传成功！');
+                setTimeout(()=>{
+                    fileInput.value=null
+                },200)
+            } else if (xhr.readyState === 4 && xhr.status !== 200) {
+                // 上传失败
+                alert('文件上传失败！');
+            }
+        };
+        xhr.open('POST', form.getAttribute('action'), true);
+        xhr.send(new FormData(form));
+        console.log(xhr)
+        // if (xhr.status === 200) {
+        //     console.log("")
+        // }
+
+        // 防止表单自动提交
+        event.preventDefault();
+        return true;
+    }
+</script>
+</body>
+</html>

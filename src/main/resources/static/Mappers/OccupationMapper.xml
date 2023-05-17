@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.FinalProject.Mapper.OccupationMapper">
+    <insert id="insertOccupation">
+        insert into occupation values(#{PNO},#{PName},#{Desciption}
+        ,#{Needs},#{Company},#{STime},#{ETime})
+    </insert>
+
+    <select id="GetOccupation" resultType="com.FinalProject.Pojo.Occupation">
+        select * from occupation
+    </select>
+</mapper>
