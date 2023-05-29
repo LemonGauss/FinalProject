@@ -16,6 +16,7 @@
         <setting name="mapUnderscoreToCamelCase" value="true" />
         <setting name="localCacheScope" value="SESSION" />
         <setting name="jdbcTypeForNull" value="NULL"/>
+
     </settings>
 
     <typeAliases>

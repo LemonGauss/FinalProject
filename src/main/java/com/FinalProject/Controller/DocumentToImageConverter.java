@@ -12,7 +12,7 @@ import java.io.File;
 
 import java.io.IOException;
 @Controller
-public  class DocumentToImageConverter {
+public  class DocumentToImageConverter {//pdf解析成图片，用于在线查看文件功能
 
     // 将PDF文件转换为图片
     public static void convertPDFToImages(String pdfFilePath, String outputDirectory)  {
@@ -29,9 +29,11 @@ public  class DocumentToImageConverter {
         }
         int pageCount = document.getNumberOfPages();
         //目前只取第一页
-            BufferedImage image = pdfRenderer.renderImageWithDPI(0, 300, ImageType.RGB);
-             imagePath = outputDirectory + fileName  + ".png";
-            ImageIOUtil.writeImage(image, imagePath, 300);
+            for (int pageIndex = 0; pageIndex < pageCount; pageIndex++) {
+                BufferedImage image = pdfRenderer.renderImageWithDPI(pageIndex, 300, ImageType.RGB);
+                 imagePath = outputDirectory + fileName  + (pageIndex + 1) + ".png";
+                ImageIOUtil.writeImage(image, imagePath, 300);
+            }
 
         document.close();
             System.out.println("转换成功");

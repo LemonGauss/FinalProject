@@ -60,7 +60,7 @@
     <form th:action="@{/upload}" method="post" enctype="multipart/form-data" onsubmit="return checkUpload()">
         <input type="file" name="file" id="fileToUpload">
         <br><br>
-        <input type="submit" value="上传文件" name="submit"><p class="placeholder">仅支持txt,pdf格式;上传大小不超过5MB</p>
+        <input type="submit" value="上传文件" name="submit"><p class="placeholder">仅支持txt,pdf,docx,zip格式;上传大小不超过5MB</p>
     </form>
 </div>
 
@@ -77,15 +77,15 @@
         }
 
         // 检查文件格式是否正确
-        var allowedExtensions = /(\.txt|\.pdf|\.docx)$/i;
+        var allowedExtensions = /(\.txt|\.pdf|\.docx|\.zip)$/i;
         if (!allowedExtensions.exec(fileInput.value)) {
-            alert('文件格式不正确，请选择txt或pdf或docx格式的文件！');
+            alert('文件格式不正确，请选择txt或pdf或docx或zip格式的文件！');
             fileInput.value = '';
             return false;
         }
-        var maxFileSize = 5 * 1024 * 1024; //
+        var maxFileSize = 100 * 1024 * 1024; //
         if (fileInput.files[0].size > maxFileSize) {
-            alert('文件太大，请选择小于5MB的文件！');
+            alert('文件太大，请选择小于100MB的文件！');
             fileInput.value = '';
             return false;
         }

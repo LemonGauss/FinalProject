@@ -3,11 +3,11 @@ package com.FinalProject.Service.Impl;
 
 import com.FinalProject.Controller.DocumentToImageConverter;
 import com.FinalProject.Controller.TextToImageConverter;
-import com.FinalProject.Controller.WordToImage;
 import com.FinalProject.Mapper.FileUploadMapper;
-import com.FinalProject.Pojo.FileUpload;
 import com.FinalProject.Pojo.Resume;
 import com.FinalProject.Service.FileUploadService;
+import com.FinalProject.Utils.Unzip;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +21,7 @@ import java.util.UUID;
 @Service
 @Transactional
 public class FileUploadServiceImpl implements FileUploadService {
+
     @Autowired
     private FileUploadMapper fileUploadMapper;
     @Override
@@ -40,7 +41,8 @@ public class FileUploadServiceImpl implements FileUploadService {
         // 生成唯一的文件名
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
         String fileName = uuid.substring(0,4) +"-"+ file.getOriginalFilename();
-
+        int lastDotIndex1=file.getOriginalFilename().lastIndexOf('.');
+        String frontOriginName=file.getOriginalFilename().substring(0,lastDotIndex1+1);
         // 保存PDF文件
         File saveFile = new File(savePath + fileName);
         FileOutputStream fos = new FileOutputStream(saveFile);
@@ -56,14 +58,30 @@ public class FileUploadServiceImpl implements FileUploadService {
             // 使用substring方法截取最后一个点之后的部分
             fileFormat = fileName.substring(lastDotIndex + 1);
         }
+        if (fileFormat.equals("zip"))
+        {
+            Unzip.unzipFile(savePath + fileName, savePath+"docx");
+            try {
+                PythonApiCaller.generateFile(savePath+"docx/"+frontOriginName);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if(fileFormat.equals("docx"))
+        {
+            try {
+                PythonApiCaller.generateFile(savePath +fileName);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
         if(fileFormat.equals("pdf"))
         DocumentToImageConverter.convertPDFToImages(savePath + fileName,savePath);
-        if(fileFormat.equals("doc")||fileFormat.equals("docx"))
-            WordToImage.docToImage(savePath + fileName,savePath);
+        //savePath + fileName示例
         if(fileFormat.equals("txt"))
             TextToImageConverter.convertTextToImage(savePath + fileName,savePath+frontFileName+"png");
         try{
-            Resume resume=new Resume(0,fileName,savePath+fileName,null);
+            Resume resume=new Resume(0,fileName,savePath+"docx/"+fileName,null);
             fileUploadMapper.insertFile(resume);
         }catch (Exception e){
             e.printStackTrace();

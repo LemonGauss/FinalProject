@@ -18,7 +18,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @RestController
-public class ToImageConverter {
+public class ToImageConverter {//在线查看文件的功能
 
     @PostMapping("/fileToImage")
     public ResponseEntity<byte[]> sendDataToBackend(@RequestBody String jsonData) {
@@ -42,15 +42,11 @@ public class ToImageConverter {
             int lastDotIndex = position.lastIndexOf('.');
             if (lastDotIndex != -1) {
 
-                 fileName=position.substring(0,lastDotIndex+1);
+                 fileName=position.substring(0,lastDotIndex);
                 // 使用substring方法截取最后一个点之后的部分
                  fileFormat = position.substring(lastDotIndex + 1);
             }
-
-            if(fileFormat.equals("pdf") || fileFormat.equals("txt"))
-            {imagePath=fileName+"png";}
-            else if(fileFormat.equals("docx") || fileFormat.equals("doc"))
-            {imagePath=fileName+"jpg";}
+            imagePath=fileName+"1.png";
             System.out.println("fileName="+fileName+"pdf="+fileFormat+"  "+"imagePath="+imagePath);
             // 读取图片文件
             File imageFile = new File(imagePath);

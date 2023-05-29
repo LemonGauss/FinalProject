@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
-public class TextToImageConverter {
+public class TextToImageConverter {//文本解析成图片，用于在线查看文件功能
 
     public static void convertTextToImage(String textFilePath, String outputImagePath) throws IOException {
 
