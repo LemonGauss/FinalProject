@@ -78,7 +78,7 @@ public class FileUploadServiceImpl implements FileUploadService {
         if(fileFormat.equals("pdf"))
         {
             try {
-                PythonApiCaller.generateFile(savePath+fileName);
+                PythonApiCaller.generateFile(savePath+fileName);//发送文件绝对地址
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -87,7 +87,7 @@ public class FileUploadServiceImpl implements FileUploadService {
         if(fileFormat.equals("jpeg"))
         {
             try {
-                PythonApiCaller.generateFile(savePath+fileName);
+                PythonApiCaller.generateFile(savePath+fileName);//发送文件绝对地址
             } catch (JSONException e) {
                 e.printStackTrace();
             }
