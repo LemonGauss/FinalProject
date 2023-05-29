@@ -94,9 +94,16 @@ public class FileUploadServiceImpl implements FileUploadService {
         }
         //savePath + fileName示例
         if(fileFormat.equals("txt"))
+        {
+            try {
+                PythonApiCaller.generateFile(savePath+fileName);//发送文件绝对地址
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             TextToImageConverter.convertTextToImage(savePath + fileName,savePath+frontFileName+"png");
+        }
         try{
-            Resume resume=new Resume(0,fileName,savePath+"docx/"+fileName,null);
+            Resume resume=new Resume(0,fileName,savePath+fileName,null);
             fileUploadMapper.insertFile(resume);
         }catch (Exception e){
             e.printStackTrace();
