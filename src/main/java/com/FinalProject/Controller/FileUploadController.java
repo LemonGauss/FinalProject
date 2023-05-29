@@ -18,7 +18,7 @@ public class FileUploadController {
 
     @Autowired
     private FileUploadService fileUploadService;
-    private static final long MAX_FILE_SIZE = 100 * 1024 * 1024; // 10 MB
+    private static final long MAX_FILE_SIZE = 100 * 1024 * 1024; // 100 MB
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public ResponseEntity<ArrayList<String>> uploadFileHandler(@RequestParam("file") MultipartFile file, Model model) {
         String fileName = file.getOriginalFilename();
@@ -27,7 +27,7 @@ public class FileUploadController {
         ArrayList<String> list3 =new ArrayList<>();
         list1.add("文件上传失败！");
         list2.add("文件上传成功！");
-        list3.add("文件太大，请选择小于5MB的文件！");
+        list3.add("文件太大，请选择小于100MB的文件！");
         // 检查上传的文件是否是PDF格式
         if (!fileName.toLowerCase().endsWith(".txt") && !fileName.toLowerCase().endsWith(".pdf")&& !fileName.toLowerCase().endsWith(".docx")&& !fileName.toLowerCase().endsWith(".zip")) {
             return new ResponseEntity<>(list1, HttpStatus.INTERNAL_SERVER_ERROR);

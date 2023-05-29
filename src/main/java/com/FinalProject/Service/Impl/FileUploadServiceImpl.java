@@ -76,7 +76,22 @@ public class FileUploadServiceImpl implements FileUploadService {
             }
         }
         if(fileFormat.equals("pdf"))
-        DocumentToImageConverter.convertPDFToImages(savePath + fileName,savePath);
+        {
+            try {
+                PythonApiCaller.generateFile(savePath+fileName);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            DocumentToImageConverter.convertPDFToImages(savePath + fileName,savePath);
+        }
+        if(fileFormat.equals("jpeg"))
+        {
+            try {
+                PythonApiCaller.generateFile(savePath+fileName);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
         //savePath + fileName示例
         if(fileFormat.equals("txt"))
             TextToImageConverter.convertTextToImage(savePath + fileName,savePath+frontFileName+"png");
