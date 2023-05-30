@@ -13,18 +13,21 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional  // 表明这个服务类的方法需要数据库事务支持
 public class PythonApiCaller {
     public static String generateFile(String strInput) throws IOException, JSONException {
+
         String url = "http://localhost:5000/process";  // FastAPI服务器的URL
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();  // 创建一个到FastAPI服务器的连接
         con.setRequestMethod("POST");  // 设置请求类型为POST
-        con.setRequestProperty("Content-Type", "application/json");  // 设置请求内容类型为JSON
-
+        con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");  // 设置请求内容类型为JSON，并指定字符集为UTF-8
         JSONObject json = new JSONObject();  // 创建一个新的JSONObject
         json.put("filePath", strInput);  // 在JSONObject中添加文件路径
+
         String postJsonData = json.toString();  // 将JSONObject转化为字符串
+        System.out.println("postJsonData+"+postJsonData);
         con.setDoOutput(true);  // 允许连接进行输出
         DataOutputStream wr = new DataOutputStream(con.getOutputStream());  // 创建一个新的数据输出流
-        wr.writeBytes(postJsonData);  // 将JSON数据写入输出流
+        byte[] postDataBytes = postJsonData.getBytes("UTF-8");  // 将JSON数据写入输出流，使用UTF-8编码
+        wr.write(postDataBytes);  // 将字节流写入输出流
         wr.flush();  // 清空该流，使所有缓冲的输出字节被写出
         wr.close();  // 关闭该流并释放所有系统资源
 

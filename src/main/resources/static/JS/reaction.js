@@ -23,8 +23,12 @@ const tbody = document.querySelector('#myTable tbody');
 fetch('/getResume')
     .then(response => response.json())
     .then(data => {
+            var i=0
+            var sum=0
         // 遍历数据数组，为每个对象创建一行表格，并将数据写入单元格中
+
         data.forEach(item => {
+            i++;
             const tr = document.createElement('tr');
             const tdRNO = document.createElement('td');
             const tdRName = document.createElement('td');
@@ -34,7 +38,7 @@ fetch('/getResume')
             const tdPosition=document.createElement('td');
             const tdDownload=document.createElement('td');
 
-            tdRNO.innerHTML = item.rno;
+            tdRNO.innerHTML = i;
             tdRName.innerHTML = item.rname;
             tdState.innerHTML="未分配";
             tdState.style.color="red";
@@ -87,14 +91,13 @@ function displayTable() {
 }
 
 function displayPagination() {
-
     var pagination = document.getElementById("pagination");
     var html = "";
     html += "<a href='#' onclick='if(currentPage>1){setCurrentPage(currentPage-1);}'>" + '<' + "</a>";
-    for (var i = 1; i <= 2; i++) {
+    for (var i = 1; i <=Math.ceil((table.rows.length - 1) / rowsPerPage); i++) {
         html += "<a href='#' onclick='setCurrentPage(" + i + ")'>" + i + "</a>";
     }
-    html += "<a href='#' onclick='if(currentPage<Math.ceil((table.rows.length - 1) / rowsPerPage)){setCurrentPage(currentPage+1);}'>" + '>' + "</a>";
+    html += "<a href='#' onclick='if(currentPage<=Math.ceil((table.rows.length - 1) / rowsPerPage)){setCurrentPage(currentPage+1);}'>" + '>' + "</a>";
     pagination.innerHTML = html;
     pagination.children[currentPage].classList.add("active");
 }

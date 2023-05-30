@@ -29,7 +29,7 @@ public class FileUploadController {
         list2.add("文件上传成功！");
         list3.add("文件太大，请选择小于100MB的文件！");
         // 检查上传的文件是否是PDF格式
-        if (!fileName.toLowerCase().endsWith(".txt") && !fileName.toLowerCase().endsWith(".pdf")&& !fileName.toLowerCase().endsWith(".docx")&& !fileName.toLowerCase().endsWith(".zip")) {
+        if (!fileName.toLowerCase().endsWith(".txt") && !fileName.toLowerCase().endsWith(".pdf")&& !fileName.toLowerCase().endsWith(".docx")&& !fileName.toLowerCase().endsWith(".zip")&& !fileName.toLowerCase().endsWith(".jpeg")) {
             return new ResponseEntity<>(list1, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         // 检查上传的文件大小是否超过限制

@@ -3,7 +3,9 @@ package com.FinalProject.Service.Impl;
 
 import com.FinalProject.Controller.DocumentToImageConverter;
 import com.FinalProject.Controller.TextToImageConverter;
+import com.FinalProject.Mapper.AnalysisMapper;
 import com.FinalProject.Mapper.FileUploadMapper;
+import com.FinalProject.Pojo.Analysis;
 import com.FinalProject.Pojo.Resume;
 import com.FinalProject.Service.FileUploadService;
 import com.FinalProject.Utils.Unzip;
@@ -12,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,6 +25,8 @@ public class FileUploadServiceImpl implements FileUploadService {
 
     @Autowired
     private FileUploadMapper fileUploadMapper;
+    @Autowired
+    private AnalysisMapper analysisMapper;  // 添加注入 AnalysisMapper
     @Override
     public void saveFile(MultipartFile file) throws IOException {
         // 获取文件的字节数组
@@ -60,9 +63,9 @@ public class FileUploadServiceImpl implements FileUploadService {
         }
         if (fileFormat.equals("zip"))
         {
-            Unzip.unzipFile(savePath + fileName, savePath+"docx");
+            Unzip.unzipFile(savePath + fileName, savePath+"zip/"+frontOriginName,fileUploadMapper);
             try {
-                PythonApiCaller.generateFile(savePath+"docx/"+frontOriginName);
+                PythonApiCaller.generateFile(savePath+"zip/"+frontOriginName);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -86,6 +89,7 @@ public class FileUploadServiceImpl implements FileUploadService {
         }
         if(fileFormat.equals("jpeg"))
         {
+            System.out.println("--------"+savePath+fileName);
             try {
                 PythonApiCaller.generateFile(savePath+fileName);//发送文件绝对地址
             } catch (JSONException e) {
@@ -102,12 +106,19 @@ public class FileUploadServiceImpl implements FileUploadService {
             }
             TextToImageConverter.convertTextToImage(savePath + fileName,savePath+frontFileName+"png");
         }
+        if(!fileFormat.equals("zip")) {
+            try {
+                Resume resume = new Resume(0, fileName, savePath + fileName, null);
+                fileUploadMapper.insertFile(resume);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         try{
-            Resume resume=new Resume(0,fileName,savePath+fileName,null);
-            fileUploadMapper.insertFile(resume);
-        }catch (Exception e){
+            ExcelToDatabase excelToDatabase=new ExcelToDatabase(analysisMapper);
+            excelToDatabase.readExcelAndInsertIntoDatabase("D:\\upload\\excel\\testExcel.xlsx");}
+        catch (Exception e){
             e.printStackTrace();
         }
-
     }
 }
